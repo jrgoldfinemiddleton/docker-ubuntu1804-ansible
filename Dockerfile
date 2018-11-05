@@ -1,7 +1,8 @@
 FROM ubuntu:18.04
-LABEL maintainer="Jeff Geerling"
+LABEL maintainer="Jason Goldfine-Middleton"
 
-ENV pip_packages "ansible"
+ARG DEBIAN_FRONTEND=noninteractive
+ARG PIP_PACKAGES="ansible"
 
 # Install dependencies.
 RUN apt-get update \
@@ -17,7 +18,7 @@ RUN apt-get update \
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 
 # Install Ansible via Pip.
-RUN pip install $pip_packages
+RUN pip install $PIP_PACKAGES
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
